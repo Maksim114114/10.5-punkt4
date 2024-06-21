@@ -15,6 +15,7 @@ from django.core.mail import EmailMultiAlternatives, send_mail
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
+from .tasks import send_email_about_new_post
 
 
 
@@ -27,6 +28,7 @@ class PostsList(ListView):
     template_name = 'posts.html'
     context_object_name = 'posts'
     paginate_by = 10  # вот так мы можем указать количество записей на странице
+
 
 
     # Метод get_context_data позволяет нам изменить набор данных,
@@ -65,6 +67,11 @@ class PostsList(ListView):
 
 
 
+
+
+
+
+
 class PostsDetail(DetailView):#показывает по id ключу  по ссылке news\urls.py  path('<int:pk>', PostsDetail.as_view()),
     # Модель всё та же, но мы хотим получать информацию по отдельному товару
     model = Post
@@ -81,6 +88,8 @@ def create_post(request):
 
     form = PostForm()
     return render(request, 'news_edit.html', {'form': form})
+
+
 
 
 class PostsDetail(DetailView):#показывает по id ключу  по ссылке news\urls.py  path('<int:pk>', PostsDetail.as_view()),
